@@ -1,0 +1,503 @@
+@charset "UTF-8";
+body {
+  height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  font-size: 100%;
+}
+body:before {
+  content: "☝️ select some text";
+  position: absolute;
+  font-family: "Comfortaa", sans-serif;
+  bottom: 0;
+  left: 50%;
+  display: inline-block;
+  transform: translate(-50%, -20px);
+  font-size: 14px;
+  padding: 0 5px;
+  border-bottom: 1px solid yellow;
+}
+body.active {
+  pointer-events: none;
+}
+body .multi-button {
+  position: absolute;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease-in-out, top 0s ease-in-out, left 0s ease-in-out;
+  transition-delay: 0.3s, 0s, 0.6s, 0.6s;
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transform-style: preserve-3d;
+  perspective: 100px;
+  box-shadow: 0 0px 20px -10px rgba(0, 0, 0, 0);
+}
+body .multi-button .close {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: linear-gradient(-45deg, transparent calc(50% - 1px), #fff calc(50% - 1px), #fff calc(50% + 1px), transparent calc(50% + 1px)), linear-gradient(45deg, red calc(50% - 1px), #fff calc(50% - 1px), #fff calc(50% + 1px), red calc(50% + 1px));
+  border-radius: 100%;
+  box-shadow: inset 0 0 0 2px red, 0 0 0 2px #222;
+  right: -7.5px;
+  top: -7.5px;
+  transform: scale(0);
+  transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+body .multi-button:before {
+  transition: 0.3s ease-in-out;
+  content: "";
+  position: absolute;
+  width: 125%;
+  height: 112.5%;
+  top: -25%;
+  left: -12.5%;
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(0px);
+  box-shadow: 0px -25px 25px 10px redrgba(255, 255, 255, 0);
+  border-radius: 10px;
+}
+body .multi-button button {
+  outline: none;
+  padding: 10px;
+  background: #fff;
+  border: none;
+  font-family: "Comfortaa", sans-serif;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 2px;
+  width: 33.333%;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px #222, inset 0 0 0 1px #555;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease-in-out, padding 0.2s ease-in-out;
+  transition-delay: 0.2s, 0.3s, 0s;
+  backface-visibility: hidden;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+}
+body .multi-button button:before, body .multi-button button:after {
+  content: "";
+  width: 15px;
+  height: 15px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-300%);
+  transition: 0.2s ease-in-out;
+}
+body .multi-button button:after {
+  width: 20px;
+  height: 20px;
+  transform: translateY(300%);
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/383755/like.svg");
+}
+body .multi-button button.cut:before {
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/383755/cut%20(1).svg");
+}
+body .multi-button button.copy:before {
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/383755/copy.svg");
+}
+body .multi-button button.paste:before {
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/383755/paste.svg");
+}
+body .multi-button button:first-of-type {
+  transform-origin: right;
+  transform: rotateY(-90deg);
+  background: #ccc;
+  border-radius: 5px 0 0 5px;
+}
+body .multi-button button:nth-of-type(3) {
+  transform-origin: left;
+  transform: rotateY(90deg);
+  background: #ccc;
+  border-radius: 0 5px 5px 0;
+}
+body .multi-button.visible {
+  transform: scaleY(1);
+  transition-delay: 0s, 0.2s, 0s, 0s;
+  box-shadow: 0 20px 20px -10px rgba(0, 0, 0, 0.5);
+}
+body .multi-button.visible .close {
+  transition-delay: 0.75s;
+  transform: scale(1);
+}
+body .multi-button.visible .close:hover {
+  transform: scale(1) rotate(90deg);
+  transition-delay: 0s;
+}
+body .multi-button.visible:before {
+  transition-delay: 0.3s;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(0.25px);
+  box-shadow: 0px -25px 450px 10px rgba(255, 255, 255, 0.25);
+}
+body .multi-button.visible button {
+  transition-delay: 0.4s, 0s, 0s;
+  transform: rotateY(0deg);
+  background: #fff;
+}
+body .multi-button.visible button.active {
+  padding-left: 20px;
+  padding-right: 0px;
+}
+body .multi-button.visible button.active.cut {
+  padding-left: 10px;
+}
+body .multi-button.visible button.active:before {
+  transition-delay: 0.25s;
+  transform: translateY(-300%);
+}
+body .multi-button.visible button.active:hover:before {
+  transition-delay: 0.25s;
+  transform: translateY(-300%);
+}
+body .multi-button.visible button.active.paste:after {
+  transition-delay: 0.25s;
+  transform: translateY(calc(-50% - 2.5px)) translateX(-2.5px);
+}
+body .multi-button.visible button.active:after {
+  transition-delay: 0.25s;
+  transform: translateY(calc(-50% - 2.5px));
+}
+body .multi-button.visible button:hover {
+  background: yellow;
+  padding-left: 20px;
+  padding-right: 0px;
+}
+body .multi-button.visible button:hover.cut {
+  padding-left: 10px;
+}
+body .multi-button.visible button:hover:before {
+  transform: translateY(-50%);
+}
+body #wrap {
+  width: 90%;
+  max-width: 700px;
+}
+body #wrap.pasted p .selection {
+  animation: paste 1s ease-in-out 2 alternate;
+}
+@keyframes paste {
+  to {
+    color: transparent;
+  }
+}
+body #wrap:not(.nocut).active .selection {
+  background: transparent;
+}
+body #wrap:not(.nocut) .selection {
+  color: transparent;
+  transition: none;
+}
+body #wrap:not(.nocut) .selection span.word:before, body #wrap:not(.nocut) .selection span.word:after {
+  animation: remove1 1.4s ease-in-out 1 forwards;
+}
+@keyframes remove1 {
+  to {
+    transform: translate(calc(-50% + 100px), 50vh) rotate(90deg);
+    opacity: 0;
+  }
+}
+@keyframes remove2 {
+  to {
+    transform: translate(calc(-50% - 100px), 50vh) rotate(-90deg);
+    opacity: 0;
+  }
+}
+body #wrap:not(.nocut) .selection span.word:after {
+  animation: remove2 1.4s ease-in-out 1 forwards;
+}
+body #wrap.active.copy .selection {
+  position: relative;
+  z-index: -1;
+}
+body #wrap.active.copy .selection:before {
+  content: "";
+  position: absolute;
+  width: 200vw;
+  height: 10px;
+  background: #fff;
+  box-shadow: 0 0 40px 20px #fff;
+  left: -50vw;
+  top: -50px;
+  animation: scan 2s ease-in-out 1 forwards, glow 2s ease-in-out 1 forwards;
+}
+@keyframes scan {
+  to {
+    top: calc(100% + 50px);
+  }
+}
+@keyframes glow {
+  0% {
+    opacity: 0.25;
+  }
+  10% {
+    opacity: 1;
+  }
+  45% {
+    box-shadow: 0 0 40px 20px #fff;
+  }
+  50% {
+    box-shadow: 0 0 40px 80px #fff;
+  }
+  55% {
+    box-shadow: 0 0 40px 20px #fff;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+body #wrap.active .selection {
+  animation: shift 0.4s ease-in-out 1 forwards;
+  background: linear-gradient(to right, yellow 50%, #222 50%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+}
+@keyframes shift {
+  from {
+    background-position: 0% 50%;
+    color: #222;
+  }
+  to {
+    background-position: -100% 50%;
+    color: #fff;
+  }
+}
+@keyframes shift2 {
+  0% {
+    background-position: 0% 50%;
+    color: #fff;
+  }
+  25% {
+    background-position: 0% 50%;
+    color: #fff;
+  }
+  75% {
+    background-position: -100% 50%;
+    color: #222;
+  }
+  100% {
+    background-position: -100% 50%;
+    color: #222;
+  }
+}
+body #wrap.active *::selection {
+  background: transparent;
+}
+body #wrap.active *:focus::selection, body #wrap.active *:active::selection {
+  background: transparent;
+}
+body #wrap.nocut:not(.active) *::selection {
+  background: yellow;
+}
+body #wrap.nocut:not(.active) *:focus::selection, body #wrap.nocut:not(.active) *:active::selection, body #wrap.nocut:not(.active) *::first-letter::selection {
+  background: yellow;
+}
+body #wrap p {
+  font-family: "Crimson Text", serif;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: #222;
+  padding: 10px;
+  display: inline-block;
+  overflow: hidden;
+}
+body #wrap p .selection {
+  position: relative;
+  background: transparent;
+  transition: 0.3s ease-in-out;
+  padding: 5px 0;
+}
+body #wrap p .selection span.word {
+  position: relative;
+  color: transparent;
+  transition: none;
+  width: auto;
+  box-sizing: border-box;
+  display: inline-block;
+}
+body #wrap p .selection span.word:nth-of-type(1n):before, body #wrap p .selection span.word:nth-of-type(1n):after {
+  animation-delay: 0.0166666667s;
+}
+body #wrap p .selection span.word:nth-of-type(1n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(1n):nth-of-type(even):after {
+  animation-delay: 0.0166666667s;
+}
+body #wrap p .selection span.word:nth-of-type(2n):before, body #wrap p .selection span.word:nth-of-type(2n):after {
+  animation-delay: 0.0333333333s;
+}
+body #wrap p .selection span.word:nth-of-type(2n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(2n):nth-of-type(even):after {
+  animation-delay: 0.0333333333s;
+}
+body #wrap p .selection span.word:nth-of-type(3n):before, body #wrap p .selection span.word:nth-of-type(3n):after {
+  animation-delay: 0.05s;
+}
+body #wrap p .selection span.word:nth-of-type(3n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(3n):nth-of-type(even):after {
+  animation-delay: 0.05s;
+}
+body #wrap p .selection span.word:nth-of-type(4n):before, body #wrap p .selection span.word:nth-of-type(4n):after {
+  animation-delay: 0.0666666667s;
+}
+body #wrap p .selection span.word:nth-of-type(4n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(4n):nth-of-type(even):after {
+  animation-delay: 0.0666666667s;
+}
+body #wrap p .selection span.word:nth-of-type(5n):before, body #wrap p .selection span.word:nth-of-type(5n):after {
+  animation-delay: 0.0833333333s;
+}
+body #wrap p .selection span.word:nth-of-type(5n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(5n):nth-of-type(even):after {
+  animation-delay: 0.0833333333s;
+}
+body #wrap p .selection span.word:nth-of-type(6n):before, body #wrap p .selection span.word:nth-of-type(6n):after {
+  animation-delay: 0.1s;
+}
+body #wrap p .selection span.word:nth-of-type(6n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(6n):nth-of-type(even):after {
+  animation-delay: 0.1s;
+}
+body #wrap p .selection span.word:nth-of-type(7n):before, body #wrap p .selection span.word:nth-of-type(7n):after {
+  animation-delay: 0.1166666667s;
+}
+body #wrap p .selection span.word:nth-of-type(7n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(7n):nth-of-type(even):after {
+  animation-delay: 0.1166666667s;
+}
+body #wrap p .selection span.word:nth-of-type(8n):before, body #wrap p .selection span.word:nth-of-type(8n):after {
+  animation-delay: 0.1333333333s;
+}
+body #wrap p .selection span.word:nth-of-type(8n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(8n):nth-of-type(even):after {
+  animation-delay: 0.1333333333s;
+}
+body #wrap p .selection span.word:nth-of-type(9n):before, body #wrap p .selection span.word:nth-of-type(9n):after {
+  animation-delay: 0.15s;
+}
+body #wrap p .selection span.word:nth-of-type(9n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(9n):nth-of-type(even):after {
+  animation-delay: 0.15s;
+}
+body #wrap p .selection span.word:nth-of-type(10n):before, body #wrap p .selection span.word:nth-of-type(10n):after {
+  animation-delay: 0.1666666667s;
+}
+body #wrap p .selection span.word:nth-of-type(10n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(10n):nth-of-type(even):after {
+  animation-delay: 0.1666666667s;
+}
+body #wrap p .selection span.word:nth-of-type(11n):before, body #wrap p .selection span.word:nth-of-type(11n):after {
+  animation-delay: 0.1833333333s;
+}
+body #wrap p .selection span.word:nth-of-type(11n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(11n):nth-of-type(even):after {
+  animation-delay: 0.1833333333s;
+}
+body #wrap p .selection span.word:nth-of-type(12n):before, body #wrap p .selection span.word:nth-of-type(12n):after {
+  animation-delay: 0.2s;
+}
+body #wrap p .selection span.word:nth-of-type(12n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(12n):nth-of-type(even):after {
+  animation-delay: 0.2s;
+}
+body #wrap p .selection span.word:nth-of-type(13n):before, body #wrap p .selection span.word:nth-of-type(13n):after {
+  animation-delay: 0.2166666667s;
+}
+body #wrap p .selection span.word:nth-of-type(13n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(13n):nth-of-type(even):after {
+  animation-delay: 0.2166666667s;
+}
+body #wrap p .selection span.word:nth-of-type(14n):before, body #wrap p .selection span.word:nth-of-type(14n):after {
+  animation-delay: 0.2333333333s;
+}
+body #wrap p .selection span.word:nth-of-type(14n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(14n):nth-of-type(even):after {
+  animation-delay: 0.2333333333s;
+}
+body #wrap p .selection span.word:nth-of-type(15n):before, body #wrap p .selection span.word:nth-of-type(15n):after {
+  animation-delay: 0.25s;
+}
+body #wrap p .selection span.word:nth-of-type(15n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(15n):nth-of-type(even):after {
+  animation-delay: 0.25s;
+}
+body #wrap p .selection span.word:nth-of-type(16n):before, body #wrap p .selection span.word:nth-of-type(16n):after {
+  animation-delay: 0.2666666667s;
+}
+body #wrap p .selection span.word:nth-of-type(16n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(16n):nth-of-type(even):after {
+  animation-delay: 0.2666666667s;
+}
+body #wrap p .selection span.word:nth-of-type(17n):before, body #wrap p .selection span.word:nth-of-type(17n):after {
+  animation-delay: 0.2833333333s;
+}
+body #wrap p .selection span.word:nth-of-type(17n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(17n):nth-of-type(even):after {
+  animation-delay: 0.2833333333s;
+}
+body #wrap p .selection span.word:nth-of-type(18n):before, body #wrap p .selection span.word:nth-of-type(18n):after {
+  animation-delay: 0.3s;
+}
+body #wrap p .selection span.word:nth-of-type(18n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(18n):nth-of-type(even):after {
+  animation-delay: 0.3s;
+}
+body #wrap p .selection span.word:nth-of-type(19n):before, body #wrap p .selection span.word:nth-of-type(19n):after {
+  animation-delay: 0.3166666667s;
+}
+body #wrap p .selection span.word:nth-of-type(19n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(19n):nth-of-type(even):after {
+  animation-delay: 0.3166666667s;
+}
+body #wrap p .selection span.word:nth-of-type(20n):before, body #wrap p .selection span.word:nth-of-type(20n):after {
+  animation-delay: 0.3333333333s;
+}
+body #wrap p .selection span.word:nth-of-type(20n):nth-of-type(even):before, body #wrap p .selection span.word:nth-of-type(20n):nth-of-type(even):after {
+  animation-delay: 0.3333333333s;
+}
+body #wrap p .selection span.word:nth-of-type(1n):before, body #wrap p .selection span.word:nth-of-type(1n):after {
+  animation-duration: 0.85s;
+}
+body #wrap p .selection span.word:nth-of-type(2n):before, body #wrap p .selection span.word:nth-of-type(2n):after {
+  animation-duration: 0.95s;
+}
+body #wrap p .selection span.word:nth-of-type(3n):before, body #wrap p .selection span.word:nth-of-type(3n):after {
+  animation-duration: 1.05s;
+}
+body #wrap p .selection span.word:nth-of-type(4n):before, body #wrap p .selection span.word:nth-of-type(4n):after {
+  animation-duration: 1.15s;
+}
+body #wrap p .selection span.word:nth-of-type(5n):before, body #wrap p .selection span.word:nth-of-type(5n):after {
+  animation-duration: 1.25s;
+}
+body #wrap p .selection span.word:nth-of-type(6n):before, body #wrap p .selection span.word:nth-of-type(6n):after {
+  animation-duration: 1.35s;
+}
+body #wrap p .selection span.word:nth-of-type(7n):before, body #wrap p .selection span.word:nth-of-type(7n):after {
+  animation-duration: 1.45s;
+}
+body #wrap p .selection span.word:nth-of-type(8n):before, body #wrap p .selection span.word:nth-of-type(8n):after {
+  animation-duration: 1.55s;
+}
+body #wrap p .selection span.word:nth-of-type(9n):before, body #wrap p .selection span.word:nth-of-type(9n):after {
+  animation-duration: 1.65s;
+}
+body #wrap p .selection span.word:nth-of-type(10n):before, body #wrap p .selection span.word:nth-of-type(10n):after {
+  animation-duration: 1.75s;
+}
+body #wrap p .selection span.word:nth-of-type(11n):before, body #wrap p .selection span.word:nth-of-type(11n):after {
+  animation-duration: 1.85s;
+}
+body #wrap p .selection span.word:nth-of-type(12n):before, body #wrap p .selection span.word:nth-of-type(12n):after {
+  animation-duration: 1.95s;
+}
+body #wrap p .selection span.word:before, body #wrap p .selection span.word:after {
+  content: attr(data-word);
+  color: #222;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  display: inline-block;
+  will-change: transform;
+  backface-visibility: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  clip-path: polygon(0 0, 50% 0, 50% 100%, 0% 100%);
+}
+body #wrap p .selection span.word:after {
+  clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+}
